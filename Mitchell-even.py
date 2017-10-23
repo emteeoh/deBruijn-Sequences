@@ -18,6 +18,7 @@ def ConditionB(a,v,n):
     # n is even, but not a multiple of 4.
     assert n%2==0
     assert n%4!=0
+    assert n == 2**v-2
     return True
 
 def Zeroes(v):
@@ -39,8 +40,18 @@ def deBruijnConstructionEven(a,v,n):
     assert ConditionB(d,2*v,n*(n+4)+2)
     return d
 
-def deBruijnDecodeEven(a,v,n):
+def e(x):  # a decoder for a
+    if len(x)==3:
+        return{'001':0,'010':1,'101':2,'011':3,'110':4,'100':5}[x]
+    else:
+        return deBruijnDecodeEven(x,len(x),2**len(x))
+
+
+def deBruijnDecodeEven(x,v,n):
     pass
+
+
+
 
 d=deBruijnConstructionEven('001011',3,6)
 print(d)
