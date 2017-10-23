@@ -52,8 +52,30 @@ def deBruijnDecodeEven(x,v,n):
 
 
 
+a='001011'; v=3; n=6
+debruijnSets = {2:('01',2,2),3:('001011',3,6)}
+for i in range(2,25):
+    if i in debruijnSets:
+        print("%s: %s, %s" % (str(i), str(debruijnSets[i][1]), str(debruijnSets[i][2])))
+    else:
+        if (int(i/2) in debruijnSets.keys()) and (i%2==0):
+            a = deBruijnConstructionEven(*debruijnSets[int(i/2)])
+            v= debruijnSets[int(i/2)][1]*2
+            n= len(a)
+            debruijnSets[i]=(a,v,n)
+            print("%s: %s, %s" % (str(i), str(debruijnSets[i][1]), str(debruijnSets[i][2])))
 
-d=deBruijnConstructionEven('001011',3,6)
-print(d)
-aa='00000100110110101011100101000011001111101001000101100011101111'
-assert d==aa
+with open("Debruijn Sequences","w") as f:
+    for i in debruijnSets.keys():
+        print("%s, %s" % (str(debruijnSets[i][1]), str(debruijnSets[i][2])),file=f)
+    print("",file=f)
+    for i in debruijnSets.keys():
+        print("%s:\n %s\n" % (str(debruijnSets[i][1]), str(debruijnSets[i][0])),file=f)
+
+
+# d=deBruijnConstructionEven('001011',3,6)
+# print(d)
+# print(len(d))
+# aa='00000100110110101011100101000011001111101001000101100011101111'
+# assert d==aa
+
