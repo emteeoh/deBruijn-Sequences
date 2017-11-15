@@ -1,4 +1,4 @@
-from KnuthAlgorithmR import alg_R
+from KnuthAlgorithmR import knuthR
 from Mitchell import genDeBruijn
 
 
@@ -12,28 +12,34 @@ class iterbruijn:
 
 class iterbruijn_iter:
     def __init__(self, n):
-        self.n = n
-        if self.n % 2 == 0 and n > 2:
+        if n % 2 == 0 and n > 2:
             halfn = int(n / 2)
+            # print("Mitchell({})".format(halfn))
             self.a = genDeBruijn(halfn, iterbruijn(halfn))
-        elif self.n % 2 == 1 and n > 3:
+        elif n % 2 == 1 and n > 3:
             prevn = n - 1
-            self.a = alg_R(2, prevn, iterbruijn(prevn))
+            # print("Knuth({})".format(prevn))
+            self.a = knuthR( prevn, iterbruijn(prevn))
         elif n == 2:
+            # print("Trivial n=2")
             self.a = iter([0, 0, 1, 1])
         else:  # n==3
-            self.a = ([0, 0, 0, 1, 0, 1, 1, 1])
+                # if n is actually 1 or 0, this code just kinda assumes its 3. 1 and 0 are kinda meaningless/trivial deBruijns
+            # print("Trivial n=3")
+            self.a = iter([0, 0, 0, 1, 0, 1, 1, 1])
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        return next(self.a)
+        try:
+            return next(self.a)
+        except StopIteration:
+            raise StopIteration
 
 
 if __name__ == "__main__":
-    for i in iterbruijn(4):
-        print(i,end='')
-    print("\n")
-    for i in iterbruijn(5):
-        print(i,end='')
+    for i in range(2,17):
+        print("{:2}: ".format(i),end='')
+        [ print(x,end='') for x in iterbruijn(i) ]
+        print()

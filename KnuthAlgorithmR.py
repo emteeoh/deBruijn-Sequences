@@ -27,6 +27,11 @@ def alg_R(m,n,a):
         skipf = False
         x = (x+y)%m
 
+def knuthR(n,a):
+    kr=alg_R(2,n,a)
+    for i in range(2**(n+1)):
+        yield next(kr)
+    raise StopIteration
 
 if __name__ == "__main__":
     # This stuff is just smoke tests. If the file is used as a module, this code won't be used and won't be missed.
