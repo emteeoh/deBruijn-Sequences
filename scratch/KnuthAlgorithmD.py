@@ -18,17 +18,18 @@ class alg_D_iter:
         self.g=self.deBruijnGenerator()
         self.c=0
         self.max = 4*n*n
-
-    def __iter__(self):
-        return self
-
-    def deBruijnGenerator(self):
         self.f = cycle(self.a)
         self.fp = cycle(self.a)
         self.x = self.xp = 2
         self.y = self.t = self.yp = self.tp = 0
         self.r = 2
         self.goto = 'D3'
+
+    def __iter__(self):
+        return self
+
+    def deBruijnGenerator(self):
+
         while True:
             self.goto = 'D3'
             if (self.t != self.n) or (self.x >= self.r):
