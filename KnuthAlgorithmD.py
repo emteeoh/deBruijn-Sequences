@@ -1,22 +1,28 @@
 from itertools import cycle
 
+
+
+
 class alg_D:
     def __init__(self,n,a):
         self.n=n
         self.a=a
 
     def __iter__(self):
-        return alg_D_iter(self.n)
+        return alg_D_iter(self.n,self.a)
 
 class alg_D_iter:
     def __init__(self,n,a):
         self.n=n
         self.a=a
+        self.g=self.deBruijnGenerator()
+        self.c=0
+        self.max = 4*n*n
 
     def __iter__(self):
         return self
 
-    def __next__(self):
+    def deBruijnGenerator(self):
         self.f = cycle(self.a)
         self.fp = cycle(self.a)
         self.x = self.xp = 2
@@ -55,15 +61,19 @@ class alg_D_iter:
                     break
 
 
+    def __next__(self):
+        self.c+=1
+        if self.c <=(self.max):
+            print("__next__ {}".format(self.c))
+            return next(self.g)
+        else:
+            raise StopIteration
+
 
 
 if __name__ == "__main__":
-    from deBruijn import deBruijnBinary2bit
-    m=2
-    n=2
-    a=deBruijnBinary2bit
-    ad=alg_D_iter(n,a)
-    b=[]
-    for j in range(m**(n*2)):
-        b.append(ad.__next__())
-    print("{}: {} {} ".format(n*2, len(b), b))
+
+    j=0
+    for i in alg_D(2,[0,0,1,1]):
+        print("{}: {}".format(j,i))
+        j +=1

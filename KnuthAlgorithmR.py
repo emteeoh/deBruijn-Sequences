@@ -32,9 +32,9 @@ if __name__ == "__main__":
     # This stuff is just smoke tests. If the file is used as a module, this code won't be used and won't be missed.
     from deBruijn import deBruijnBinary2bit
 
-    m=3
+    m=2
     n=2
-    a=[0,0,1,1,0,2,1,2,2]
+    a=[0,0,1,1]
     aR=alg_R(m,n,a)
     out=''
     for i in range(m**(n+1)):
