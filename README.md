@@ -17,13 +17,14 @@ from _n_-span sequences.
 * The_Art_of_Computer_Programming - Vol 1.pdf
 * tuliani2001.pdf
 ####Generators
-* KnuthAlgorithmD.py generates a sequence of span _2n_ from a sequence
+* Mitchell.py generates a sequence of span _2n_ from a sequence
 span of _n_ . It's structured as a python iterator.
 * KnuthAlgorithmR.py generates a sequence of span _n+1_ from a sequence
 of span _n_ . It's structured as a python iterator.
-* generate.py is an iterator that uses the previous 2 to generate a sequence of
-any desired length.
+* generate.py is an iterator that uses the above 2 iterators to generate a sequence of
+any desired length. Import this file and call "iterbruijn(n)" to get a sequence of span _n_
 * deBruijn.py is just a constant definition.
 ####Scratch
 This folder is where I'm putting old code experiments I don't want to
-actually delete.
+actually delete for whatever reason. Some of them worked until I broke them,
+some never worked, some work but I don't like how they work.
