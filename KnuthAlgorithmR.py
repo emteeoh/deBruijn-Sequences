@@ -1,7 +1,7 @@
 from itertools import cycle
 
-# Algorithm R will create a period n+1 deBruijn from a period n sequence.
-# A is the period n sequence
+# Algorithm R will create a span n+1 deBruijn from a span n sequence.
+# A is the span n sequence
 # m is the size of the alphabet.
 # I hope its obvious that n is n.
 
@@ -27,16 +27,19 @@ def alg_R(m,n,a):
         skipf = False
         x = (x+y)%m
 
+# The above generator will never stop. It just gives you a span n+1 sequence in a loop forever.
+# The iterator below will keep count and StopIteration when you get the full sequence once.
 def knuthR(n,a):
     kr=alg_R(2,n,a)
     for i in range(2**(n+1)):
         yield next(kr)
     raise StopIteration
 
+
+
+
 if __name__ == "__main__":
     # This stuff is just smoke tests. If the file is used as a module, this code won't be used and won't be missed.
-    from deBruijn import deBruijnBinary2bit
-
     m=2
     n=2
     a=[0,0,1,1]
@@ -47,7 +50,7 @@ if __name__ == "__main__":
     print(out)
 
 
-    a=deBruijnBinary2bit
+    a=[0,0,1,1]
     for i in range(2,16):
         m=2
         n=i
