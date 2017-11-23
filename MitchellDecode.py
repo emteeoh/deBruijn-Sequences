@@ -1,4 +1,5 @@
 def modulosolver(right, rn, left, ln, orcase, debug=False):
+    # I think something is broken here
     right = right % rn
     left = left % ln
     if debug:
@@ -35,11 +36,9 @@ def MitchellSp(v, debug=False):
         return -1
 
 def Ep(ex, sp, debug=False):
-    epx = ex  # S is 0, so all ex's are going to be in S..S'
-    if ex > 0:
+    epx = ex+2  # S is 0, so all ex's are going to be in S..S'
+    if ex > sp:
         epx += 2
-        if ex > sp:
-            epx += 2
     return epx
 
 def MitchellFp(x, debug=False):
@@ -79,6 +78,8 @@ def MitchellFp(x, debug=False):
             print("E(z)={}".format(ez))
     if case in (1, 3, 4):
         sp = MitchellSp(2 * v, debug)
+        if debug:
+            print("s' is {}".format(sp))
     if case == 4:
         isEven = ((ez - ey) % 2 == 0)
         if debug:
@@ -144,7 +145,7 @@ def MitchellDecode(x, debug=False):
         else:
             Fp = MitchellFp(x, debug)
             F = Fp
-            if Fp > t:
+            if Fp >= t:
                 F += 2
             if debug:
                 print("General Case. Fp={}, t={}, F={}".format(Fp, t, F))
@@ -161,6 +162,14 @@ def MitchellDecode(x, debug=False):
 import Mitchell
 
 if __name__ == '__main__':
+
+    # for i in [[0,0,1],[0,1,0],[1,0,1],[0,1,1],[1,1,0],[1,0,0]]:
+    #     print (i,end='')
+    #     print ([[0,0,1],[0,1,0],[1,0,1],[0,1,1],[1,1,0],[1,0,0]].index(i))
+    #     print(Ep([[0,0,1],[0,1,0],[1,0,1],[0,1,1],[1,1,0],[1,0,0]].index(i),4))
+
+
+
     D = [i for i in Mitchell.gend(3, [0, 0, 0, 1, 0, 1, 1, 1])]
     DD = D * 2
     for x in range(62):
@@ -171,12 +180,12 @@ if __name__ == '__main__':
         else:
             s=""
         print("{}: {} {}  {}".format(xx, x, e,s))
-    #     if e != x:
-    #         MitchellDecode(DD[x:x + 6], True)
-    #         print(D)
-    #         print(len(D))
-    #         break
-    # print("".join([str(i) for i in D]))
+        if e != x:
+            MitchellDecode(DD[x:x + 6], True)
+            print(D)
+            print(len(D))
+            break
+    print("".join([str(i) for i in D]))
 '''
 2:2
 3:6
@@ -195,3 +204,7 @@ cases:
 
 
 '''
+"""
+00010111
+00
+"""
