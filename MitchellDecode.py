@@ -1,4 +1,5 @@
 def modulosolver(right, rn, left, ln, orcase, debug=False):
+    # I think something is broken here
     right = right % rn
     left = left % ln
     if debug:
