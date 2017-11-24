@@ -23,17 +23,22 @@ def doublepuncture(n,a):
         yield nn
 
 def enhance(n,a):
+    calcs=True
     ac=cycle(a)
     lookback=[3]*n
+    count=0
     while True:
         nn = next(ac)
         if lookback==[0]*n:
             yield 0
         if lookback==[1]*n:
+            if calcs:
+                print("[s' is {} for D({})]".format(count+1-n,n),end='')
             yield 1
         lookback.pop(0)
         lookback.append(nn)
         yield nn
+        count+=1
 
 def gendp(n,a):
 # create a d' for a 2n-window deBruijn
@@ -80,5 +85,8 @@ def genDeBruijn(n,a):
         yield nn
 
 if __name__ == "__main__":
-    for i in genDeBruijn(2,[0,0,1,1]):
+    for i in gend(3,[0,0,0,1,0,1,1,1]):
+        print(i,end='')
+    print()
+    for i in genDeBruijn(3,[0,0,0,1,0,1,1,1]):
         print(i,end='')

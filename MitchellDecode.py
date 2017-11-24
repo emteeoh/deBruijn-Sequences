@@ -19,25 +19,13 @@ def modulosolver(right, rn, left, ln, orcase, debug=False):
             break
     return result
 
-def MitchellT(v, debug=False):
-    if v == 6:
-        return 12
-    else:
-        if debug:
-            print("T({}) is unknown.".format(v))
-        return -1
+MitchellT={6:12}
 
-def MitchellSp(v, debug=False):
-    if v == 6:
-        return 4
-    else:
-        if debug:
-            print("Sp({}) is unknown.".format(v))
-        return -1
+MitchellSp={3:4,4:8,8:126}
 
 def Ep(ex, sp, debug=False):
     epx = ex+2  # S is 0, so all ex's are going to be in S..S'
-    if ex > sp:
+    if ex >= sp:
         epx += 2
     return epx
 
@@ -77,7 +65,7 @@ def MitchellFp(x, debug=False):
         if debug:
             print("E(z)={}".format(ez))
     if case in (1, 3, 4):
-        sp = MitchellSp(2 * v, debug)
+        sp = MitchellSp[v]
         if debug:
             print("s' is {}".format(sp))
     if case == 4:
@@ -132,7 +120,7 @@ def MitchellDecode(x, debug=False):
 
     if v > 3:
         assert v % 2 == 0
-        t = MitchellT(v, debug)
+        t = MitchellT[v]
         if x == [1, 0] * int(v / 2):
             F = t
             if debug:
@@ -176,30 +164,9 @@ if __name__ == '__main__':
         xx = DD[x:x + 6]
         e = MitchellDecode(DD[x:x + 6])
         if x!=e:
-            s="!!!"
+            MitchellDecode(DD[x:x + 6],True)
+            print("{}: {} {}  !!!".format(xx, x, e))
+            break
         else:
-            s=""
-        print("{}: {} {}  {}".format(xx, x, e,s))
+            print("{}: {} {}".format(xx, x, e))
     print("".join([str(i) for i in D]))
-'''
-2:2
-3:6
-4:14
-5:30
-6:62
-
-
-cases:
-    1: y=0              ez
-    2: y=1
-    3: z=0
-    4: z=1
-    5: isEven
-    6: not isEven
-
-
-'''
-"""
-00010111
-00
-"""
