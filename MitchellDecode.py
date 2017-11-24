@@ -19,16 +19,21 @@ def modulosolver(right, rn, left, ln, orcase, debug=False):
             break
     return result
 
-MitchellT={6:12}
 
-MitchellSp={3:4,4:8,8:126}
+MitchellT = {6: 12}
 
+MitchellSp = {3: 4, 4: 8, 8: 126}
+
+
+# noinspection PyUnusedLocal,PyPep8Naming
 def Ep(ex, sp, debug=False):
-    epx = ex+2  # S is 0, so all ex's are going to be in S..S'
+    epx = ex + 2  # S is 0, so all ex's are going to be in S..S'
     if ex >= sp:
         epx += 2
     return epx
 
+
+# noinspection PyUnboundLocalVariable,PyPep8Naming,PyPep8Naming,PyShadowingNames
 def MitchellFp(x, debug=False):
     y = x[0::2]
     z = x[1::2]
@@ -74,6 +79,7 @@ def MitchellFp(x, debug=False):
             print("isEven={}".format(isEven))
     if case in (0, 1):
         m1 = ez
+        # noinspection PyPep8Naming
         Fp = 0
     if case in (2, 3):
         m1 = ey
@@ -103,6 +109,7 @@ def MitchellFp(x, debug=False):
             Fp = 1
             if debug:
                 print("m1=E(y)={} m2=E'(z)-1={}".format(m1, m2))
+    # noinspection PyUnboundLocalVariable
     m = modulosolver(m1, 2 ** v - 2, m2, 2 ** v + 2, orcase, debug)
     if debug:
         print("equation solver m={}".format(m))
@@ -111,6 +118,7 @@ def MitchellFp(x, debug=False):
     return Fp + 2 * m
 
 
+# noinspection PyShadowingNames,PyPep8Naming
 def MitchellDecode(x, debug=False):
     if debug:
         print("X is {}".format(x))
@@ -163,8 +171,8 @@ if __name__ == '__main__':
     for x in range(62):
         xx = DD[x:x + 6]
         e = MitchellDecode(DD[x:x + 6])
-        if x!=e:
-            MitchellDecode(DD[x:x + 6],True)
+        if x != e:
+            MitchellDecode(DD[x:x + 6], True)
             print("{}: {} {}  !!!".format(xx, x, e))
             break
         else:
