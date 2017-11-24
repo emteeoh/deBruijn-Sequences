@@ -180,11 +180,6 @@ if __name__ == '__main__':
         else:
             s=""
         print("{}: {} {}  {}".format(xx, x, e,s))
-        if e != x:
-            MitchellDecode(DD[x:x + 6], True)
-            print(D)
-            print(len(D))
-            break
     print("".join([str(i) for i in D]))
 '''
 2:2
