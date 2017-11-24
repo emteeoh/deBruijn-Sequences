@@ -37,7 +37,7 @@ def MitchellSp(v, debug=False):
 
 def Ep(ex, sp, debug=False):
     epx = ex+2  # S is 0, so all ex's are going to be in S..S'
-    if ex > sp:
+    if ex >= sp:
         epx += 2
     return epx
 
@@ -176,30 +176,9 @@ if __name__ == '__main__':
         xx = DD[x:x + 6]
         e = MitchellDecode(DD[x:x + 6])
         if x!=e:
-            s="!!!"
+            MitchellDecode(DD[x:x + 6],True)
+            print("{}: {} {}  !!!".format(xx, x, e))
+            break
         else:
-            s=""
-        print("{}: {} {}  {}".format(xx, x, e,s))
+            print("{}: {} {}".format(xx, x, e))
     print("".join([str(i) for i in D]))
-'''
-2:2
-3:6
-4:14
-5:30
-6:62
-
-
-cases:
-    1: y=0              ez
-    2: y=1
-    3: z=0
-    4: z=1
-    5: isEven
-    6: not isEven
-
-
-'''
-"""
-00010111
-00
-"""
