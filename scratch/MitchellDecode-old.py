@@ -1,4 +1,4 @@
-import Mitchell
+import MitchellGenerate
 
 def MitchellT(n):
     if n==3:
@@ -175,7 +175,7 @@ def bruteforceit(D,x):
 
 #print(MitchellDecode([1,0,0,1,1,0],True))
 D=[]
-for i in Mitchell.gend(3,[0,0,0,1,0,1,1,1]):
+for i in MitchellGenerate.gend(3, [0, 0, 0, 1, 0, 1, 1, 1]):
     D.append(i)
 print(D, len(D))
 

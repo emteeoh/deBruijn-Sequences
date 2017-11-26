@@ -1,5 +1,6 @@
 from KnuthAlgorithmR import knuthR
-from Mitchell import genDeBruijn
+from MitchellGenerate import genDeBruijn
+from MitchellGenerate import doublepuncture
 
 
 class iterbruijn:
@@ -37,9 +38,32 @@ class iterbruijn_iter:
         except StopIteration:
             raise StopIteration
 
+class iterdpdB:
+    def __init__(self,n):
+        self.n = n
+
+    def __iter__(self):
+        return iterdpdB_iter(self.n)
+
+
+class iterdpdB_iter:
+    def __init__(self,v):
+        self.count=2**v-2
+        self.a=doublepuncture(v,iterbruijn(v))
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        self.count -= 1
+        if self.count >=0 :
+            return next(self.a)
+        else:
+            raise StopIteration
 
 if __name__ == "__main__":
-    for i in range(2,17):
-        print("{:2}: ".format(i),end='')
-        [ print(x,end='') for x in iterbruijn(i) ]
-        print()
+    for i in [3,4,5,6,8]:
+        print("{:4}: {}".format(i,[x for x in iterbruijn(i)]))
+    print()
+    for i in [3,4,5,6,8]:
+        print("dp{:2}: {}".format(i,[x for x in iterdpdB(i)]))

@@ -20,9 +20,22 @@ def modulosolver(right, rn, left, ln, orcase, debug=False):
     return result
 
 
-MitchellT = {6: 12}
+MitchellT = {3: 7, 4: 15, 6: 12, 8: 196, 16: 16764}
 
-MitchellSp = {3: 4, 4: 8, 8: 126}
+MitchellSp = {3: 4, 4: 6, 6: 34, 8: 124, 16: 32762}
+
+BetelU = {2: 2, 3: 5, 4: 7, 5: 17, 6: 35}
+
+# 3: 001011
+# 4: 00010 01110 1011
+
+MitchellE = {2: {(0, 0): 0, (0, 1): 1, (1, 0): 3, (1, 1): 2},
+             3: {(0, 0, 1): 0, (0, 1, 0): 1, (0, 1, 1): 3, (1, 0, 0): 5, (1, 0, 1): 2, (1, 1, 0): 4},
+             4: {(0, 0, 0, 1): 0, (0, 0, 1, 0): 1, (0, 0, 1, 1): 4, (0, 1, 0, 0): 2, (0, 1, 0, 1): 9, (0, 1, 1, 0): 11,
+                 (0, 1, 1, 1): 5,
+                 (1, 0, 0, 0): 13, (1, 0, 0, 1): 3, (1, 0, 1, 0): 8, (1, 0, 1, 1): 10, (1, 1, 0, 0): 12,
+                 (1, 1, 0, 1): 7, (1, 1, 1, 0): 6}
+             }
 
 
 # noinspection PyUnusedLocal,PyPep8Naming
@@ -118,6 +131,18 @@ def MitchellFp(x, debug=False):
     return Fp + 2 * m
 
 
+def MitchellF(x,debug=False):
+    v=len(x)
+    if x==[1, 0]*int(v/2):
+        F=MitchellT[v]
+    elif x==[0,1]*int(v/2):
+        F=MitchellT[v]+1
+    else:
+        F=MitchellFp(x,debug)
+        if F >= MitchellT[v]:
+            F+=2
+    return F
+
 # noinspection PyShadowingNames,PyPep8Naming
 def MitchellDecode(x, debug=False):
     if debug:
@@ -126,55 +151,93 @@ def MitchellDecode(x, debug=False):
     if debug:
         print("V is {}".format(v))
 
-    if v > 3:
-        assert v % 2 == 0
-        t = MitchellT[v]
-        if x == [1, 0] * int(v / 2):
-            F = t
-            if debug:
-                print("X is [1,0]*nn/2, F={}".format(F))
-
-        elif x == [0, 1] * int(v / 2):
-            F = t + 1
-            if debug:
-                print("X is [0,1]*n/2, F={}".format(F))
-        else:
-            Fp = MitchellFp(x, debug)
-            F = Fp
-            if Fp >= t:
-                F += 2
-            if debug:
-                print("General Case. Fp={}, t={}, F={}".format(Fp, t, F))
-
+    if v > 4:
+        F=MitchellF(x,debug)
     else:
-        ea = [[0, 0, 1], [0, 1, 0], [1, 0, 1], [0, 1, 1], [1, 1, 0], [1, 0, 0]]
-        assert x in ea
-        F = ea.index(x)
+        F = MitchellE[v][tuple(x)]
         if debug:
             print("v=3, E({})={}".format(x, F))
     return F
 
-
-import Mitchell
+def deBruijnEvenDecode(x,debug=False):
+    v = len (x)
+    if x == [0]*v:
+        P=0
+    elif x == [1]*v:
+        P=BetelU[v]
+    else:
+        P= MitchellDecode(x)+1
+        a=max(BetelU[v],MitchellT[v])
+        b=min(BetelU[v],MitchellT[v])
+        if b <= P < a:
+            P+=1
+        if P > a:
+            P+=2
+        # if P >= BetelU[v] and P > MitchellT[v]:
+        #     P+=1
+    if debug:
+        print("debug",x, v, P, BetelU[v], MitchellT[v])
+    return P
 
 if __name__ == '__main__':
-
-    # for i in [[0,0,1],[0,1,0],[1,0,1],[0,1,1],[1,1,0],[1,0,0]]:
-    #     print (i,end='')
-    #     print ([[0,0,1],[0,1,0],[1,0,1],[0,1,1],[1,1,0],[1,0,0]].index(i))
-    #     print(Ep([[0,0,1],[0,1,0],[1,0,1],[0,1,1],[1,1,0],[1,0,0]].index(i),4))
-
-
-
-    D = [i for i in Mitchell.gend(3, [0, 0, 0, 1, 0, 1, 1, 1])]
-    DD = D * 2
-    for x in range(62):
-        xx = DD[x:x + 6]
-        e = MitchellDecode(DD[x:x + 6])
-        if x != e:
-            MitchellDecode(DD[x:x + 6], True)
-            print("{}: {} {}  !!!".format(xx, x, e))
+    # for i in MitchellE.keys():
+    #     for j in MitchellE[i].keys():
+    #         print("{}: {} {}".format(j,MitchellE[i][j],MitchellDecode(j)))
+    #
+    # D3=[0,0,0,1,0,1,1,1,0,0]
+    # for i in range(8):
+    #     j=deBruijnEvenDecode(D3[i:i + 3])
+    #     if i != j:
+    #         print("{}: {} {}".format(D3[i:i+3],i,deBruijnEvenDecode(D3[i:i+3])))
+    print("Testing D4")
+    good=True
+    D4=[0,0,0,1,0,0,1,1,1,0,1,0,1,1,0,0,0]
+    for i in range(14):
+        j=MitchellDecode(D4[i:i + 4])
+        if i != j:
+            print("{}: {} {}".format(D4[i:i+4],i,deBruijnEvenDecode(D4[i:i+4])))
+            good=False
             break
-        else:
-            print("{}: {} {}".format(xx, x, e))
-    print("".join([str(i) for i in D]))
+    if not good:
+        print("D4 broken...")
+        raise Exception
+    # # D5=[0,0,0,0,0,1,1,1,0,1,0,1,0,0,1,1,0,1,1,1,1,1,0,0,0,1,0,1,1,0,0,1,0,0,0,0]
+    # D6=[0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1,0,0,0,0,0]
+    # for i in range(64):
+    #     j=deBruijnEvenDecode(D6[i:i + 6])
+    #     if i != j:
+    #         print("{}: {} {}".format(D6[i:i + 6], i, j))
+    #
+    # print ("foo")
+    print("Testing D6")
+    D6=[0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1,0,0,0,0,0,0]
+    for i in range(62):
+        j=MitchellDecode(D6[i:i + 6])
+        if i != j:
+            print("{}: {} {}".format(D6[i:i + 6], i, j))
+            good=False
+            break
+    if not good:
+        print("D6 broken...")
+        raise Exception
+    print("Testing D8")
+    D8 = [ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+    for i in range(254):
+        j=MitchellDecode(D8[i:i + 8])
+        if i != j:
+            print("{}: {} {}".format(D8[i:i + 8], i, j))
+            good=False
+            break
+    if not good:
+        print("D8 broken...")
+        raise Exception
+    # print("Testing D16")
+    # for i in range(65534):
+    #     j=MitchellDecode(D16[i:i + 16])
+    #     if i != j:
+    #         print("{}: {} {}".format(D16[i:i + 16], i, j))
+    #         good=False
+    #         break
+    # if not good:
+    #     print("D16 broken...")
+    #     raise Exception
