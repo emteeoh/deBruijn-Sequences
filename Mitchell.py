@@ -23,7 +23,6 @@ def doublepuncture(n,a):
         yield nn
 
 def enhance(n,a):
-    calcs=True
     ac=cycle(a)
     lookback=[3]*n
     count=0
@@ -84,9 +83,14 @@ def genDeBruijn(n,a):
         lookback.append(nn)
         yield nn
 
+if __name__ == "Mitchell":
+    calcs=False
+
+
 if __name__ == "__main__":
+    calcs=True
     for i in gend(3,[0,0,0,1,0,1,1,1]):
         print(i,end='')
     print()
-    for i in genDeBruijn(3,[0,0,0,1,0,1,1,1]):
+    for i in genDeBruijn(4,[0,0,0,1,0,1,1,1]):
         print(i,end='')

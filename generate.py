@@ -39,7 +39,7 @@ class iterbruijn_iter:
 
 
 if __name__ == "__main__":
-    for i in range(2,17):
+    for i in [3,4,5,6,8,16]:
         print("{:2}: ".format(i),end='')
-        [ print(x,end='') for x in iterbruijn(i) ]
-        print()
+        y = [ x for x in iterbruijn(i) ]
+        print(y)
