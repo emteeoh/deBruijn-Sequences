@@ -7,7 +7,7 @@ In fact, the generators already work. Decoding works under certain conditions.
 deBruijns can be in any base, but I'm only interested in binary at the moment, so 
 most of this code assumes binary.
 
-####Papers
+#### Papers
 * Lempel 1992.pdf: Describes a method of construction of deBruijn sequences.
 I haven't read this one yet, but I expect it to show how to generate an _n+1_ span
 sequence from an _n_-span sequence.
@@ -17,7 +17,7 @@ from _n_-span sequences, and allows for recursive application and decoding to wo
 * Patterson 1995.pdf
 * The_Art_of_Computer_Programming - Vol 1.pdf
 * tuliani2001.pdf
-####Generators
+#### Generators
 * Mitchell.py generates a sequence of span _2n_ from a sequence
 span of _n_ . It's structured as a python iterator.
 * KnuthAlgorithmR.py generates a sequence of span _n+1_ from a sequence
@@ -25,34 +25,33 @@ of span _n_ . It's structured as a python iterator.
 * generate.py is an iterator that uses the above 2 iterators to generate a sequence of
 any desired length. Import this file and call "iterbruijn(n)" to get a sequence of span _n_
 * deBruijn.py is just a constant definition.
-####Scratch
+#### Scratch
 This folder is where I'm putting old code experiments I don't want to
 actually delete for whatever reason. Some of them worked until I broke them,
 some never worked, some work but I don't like how they work.
-####The Maths
+#### The Maths
 A deBruijn is an infinite recurring sequence, but we usually just write down one round of the recurrence. Eg:
 ...0011001100110011... is a span 2 deBruijn, but we can really just write 0011 and remember that its effectively
 circular. That also means we could write 1001, or 1100, or 0110. They're all the same, effectively.<p>
 I like to call a span-v deBruijn D<sub>v</sub>. Its much simpler than "Span-v deBruijn sequence". The length
 of D<sub>v</sub> is always going to be 2<sup>v</sup><p>
 We'll need to remember the location of the all-0-tuple and all-1-tuple for decoding purposes later.
-These are called s and s<sup>'</sup> respectively
-#
+These are called s and s<sup>'</sup> respectively.
 
 [MitchellEtAl1996] talks about modifications to deBruijns:
-######Punctured deBruijn
+###### Punctured deBruijn
 If you take D<sub>v</sub>, find the v-tuple of all zeroes, and then remove one 0 from there, 
 you're left with a sequence that has **almost** all possible v-tuples, called a punctured deBruijn. Let's call
 this D<sup>'</sup><sub>v</sub>
-######Double-Punctured deBruijn
+###### Double-Punctured deBruijn
 If you take a punctured deBruijn, find the v-tuple of all ones, and remove one 1 from there, you're left
 with a double-punctured deBruijn sequence.  Let's call this D<sup>''</sup><sub>v</sub>
-#####Enhanced deBruijn
+##### Enhanced deBruijn
 [MitchellEtAl1996] never names but uses a sequence that rather than having a 0 and 1 removed as in 
 a double-punctured deBruijn, **adds* a 0 and a 1. This yields a sequence that has all possible tuples,
 but the all-zero and all-one tuples are in there twice. I call these "enchanced" deBruijns, but I write 
 it as D<sup>+</sup><sub>v</sub>
-######[MitchellEtAl1996] Construction
+###### [MitchellEtAl1996] Construction
 Its actually pretty straight-forward. Start with a known D<sub>v</sub>. Create A=D<sup>''</sup><sub>v</sub>,
 and B=D<sup>+</sup><sub>v</sub>. If the length of D<sub>v</sub> is n, then length of A is n-2, 
 and the length of B is n+2. If you concatenate 1+n/2 copies of A, you'll get a sequence of the same 
@@ -62,7 +61,7 @@ length as n/2 -1 concatenated copies of B. <p> The construction method is:
  important value we need to remember. It's called T.
 You're now left with D<sup>''</sup><sub>2v</sub>. From here, you can trivially generate D<sub>2v</sub> 
 as well as D<sup>+</sup><sub>2v</sub>. With those, you can do another iteration and create D<sbu>4v</sub>, etc.
-######[MitchellEtAl1996] Decoding
+###### [MitchellEtAl1996] Decoding
 The algorithm as described by [MitchellEtAl1996] works only with double-punctured deBruijns constructed using
 the above algorithm. Decoding looks convoluted, but is actually straight-forward. D<sup>''</sup><sub>2n</sub>
 was built from 2 sequences A and B. If x is a 2n-tuple to be decoded, you decode by mapping even bits of x to one of
