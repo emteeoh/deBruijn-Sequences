@@ -89,16 +89,16 @@ double-punctured deBruijns with a span of 6 or larger, not a simple deBruijn... 
 bugs which I'm working around, for the moment.
 
 ###### To generate a deBruijn of any length:
-import generate
+import generate</p>
 deBruijn_of_span_v = [ y for y in generate.iterbruijn(v)]
 
 ###### To generate a double-punctured deBruijn suitable for decoding:
-import generate
+import generate</p>
 double_punctured_deBruijn_of_span_v = [ y for y in generate.iterdpdB(v)]
 
 
 ###### To decode:
-import MitchellDecode
+import MitchellDecode</p>
 position_of_x = MitchellDecode.MitchellDecode(x)
 
  
