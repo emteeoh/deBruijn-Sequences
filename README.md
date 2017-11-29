@@ -17,7 +17,7 @@ from _n_-span sequences, and allows for recursive application and decoding to wo
 * Patterson 1995.pdf
 * The_Art_of_Computer_Programming - Vol 1.pdf
 * tuliani2001.pdf
-#### Generators
+##### Generators
 * Mitchell.py generates a sequence of span _2n_ from a sequence
 span of _n_ . It's structured as a python iterator.
 * KnuthAlgorithmR.py generates a sequence of span _n+1_ from a sequence
@@ -25,11 +25,11 @@ of span _n_ . It's structured as a python iterator.
 * generate.py is an iterator that uses the above 2 iterators to generate a sequence of
 any desired length. Import this file and call "iterbruijn(n)" to get a sequence of span _n_
 * deBruijn.py is just a constant definition.
-#### Scratch
+##### Scratch
 This folder is where I'm putting old code experiments I don't want to
 actually delete for whatever reason. Some of them worked until I broke them,
 some never worked, some work but I don't like how they work.
-#### The Maths
+### The Maths
 A deBruijn is an infinite recurring sequence, but we usually just write down one round of the recurrence. Eg:
 ...0011001100110011... is a span 2 deBruijn, but we can really just write 0011 and remember that its effectively
 circular. That also means we could write 1001, or 1100, or 0110. They're all the same, effectively.<p>
@@ -48,7 +48,7 @@ If you take a punctured deBruijn, find the v-tuple of all ones, and remove one 1
 with a double-punctured deBruijn sequence.  Let's call this D<sup>''</sup><sub>v</sub>
 ##### Enhanced deBruijn
 [MitchellEtAl1996] never names but uses a sequence that rather than having a 0 and 1 removed as in 
-a double-punctured deBruijn, **adds* a 0 and a 1. This yields a sequence that has all possible tuples,
+a double-punctured deBruijn, **adds** a 0 and a 1. This yields a sequence that has all possible tuples,
 but the all-zero and all-one tuples are in there twice. I call these "enchanced" deBruijns, but I write 
 it as D<sup>+</sup><sub>v</sub>
 ###### [MitchellEtAl1996] Construction
