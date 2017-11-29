@@ -49,7 +49,7 @@ with a double-punctured deBruijn sequence.  Let's call this D<sup>''</sup><sub>v
 ###### Enhanced deBruijn
 [MitchellEtAl1996] never names but uses a sequence that rather than having a 0 and 1 removed as in 
 a double-punctured deBruijn, **adds** a 0 and a 1. This yields a sequence that has all possible tuples,
-but the all-zero and all-one tuples are in there twice. I call these "enchanced" deBruijns, but I write 
+but the all-zero and all-one tuples are in there twice. I call these "enhanced" deBruijns, but I write 
 it as D<sup>+</sup><sub>v</sub>
 ###### [MitchellEtAl1996] Construction
 Its actually pretty straight-forward. Start with a known D<sub>v</sub>. Create A=D<sup>''</sup><sub>v</sub>,
@@ -91,13 +91,15 @@ bugs which I'm working around, for the moment.
 ###### To generate a deBruijn of any length:
 ```python
 import generate
-deBruijn_of_span_v = [ y for y in generate.iterbruijn(v)]
+deBruijn_of_span_v = [y for y in generate.iterbruijn(v)]
+
 ```
 
 ###### To generate a double-punctured deBruijn suitable for decoding:
 ```python
 import generate
-double_punctured_deBruijn_of_span_v = [ y for y in generate.iterdpdB(v)]
+double_punctured_deBruijn_of_span_v = [y for y in generate.iterdpdB(v)]
+
 ```
 
 
@@ -105,4 +107,5 @@ double_punctured_deBruijn_of_span_v = [ y for y in generate.iterdpdB(v)]
 ```python
 import MitchellDecode
 position_of_x = MitchellDecode.MitchellDecode(x)
+
 ```
