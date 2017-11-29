@@ -46,7 +46,7 @@ this D<sup>'</sup><sub>v</sub>
 ###### Double-Punctured deBruijn
 If you take a punctured deBruijn, find the v-tuple of all ones, and remove one 1 from there, you're left
 with a double-punctured deBruijn sequence.  Let's call this D<sup>''</sup><sub>v</sub>
-##### Enhanced deBruijn
+###### Enhanced deBruijn
 [MitchellEtAl1996] never names but uses a sequence that rather than having a 0 and 1 removed as in 
 a double-punctured deBruijn, **adds** a 0 and a 1. This yields a sequence that has all possible tuples,
 but the all-zero and all-one tuples are in there twice. I call these "enchanced" deBruijns, but I write 
@@ -88,16 +88,16 @@ it cannot decode odd-sized deBruijns at all, and for even deBruijns, it actually
 double-punctured deBruijns with a span of 6 or larger, not a simple deBruijn... I consider these limits
 bugs which I'm working around, for the moment.
 
-To generate a deBruijn of any length:
+###### To generate a deBruijn of any length:
 import generate
 deBruijn_of_span_v = [ y for y in generate.iterbruijn(v)]
 
-To generate a double-punctured deBruijn suitable for decoding:
+###### To generate a double-punctured deBruijn suitable for decoding:
 import generate
 double_punctured_deBruijn_of_span_v = [ y for y in generate.iterdpdB(v)]
 
 
-To decode:
+###### To decode:
 import MitchellDecode
 position_of_x = MitchellDecode.MitchellDecode(x)
 
