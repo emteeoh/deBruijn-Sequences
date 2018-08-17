@@ -1,16 +1,16 @@
 A deBruijn sequence of span _n_ is a periodic sequence in which every possible
 _n_-tuple over the alphabet occurs exactly once.
 
-In this project, I aim to create both a sequence generator and a decoder.
-In fact, the generators already work. Decoding works under certain conditions.
+In this project, I created both a sequence generator and a decoder.
 
-deBruijns can be in any base, but I'm only interested in binary at the moment, so 
+deBruijns can be in any base (that's why i used "alphabet" in the first sentence)
+but I'm only interested in binary at the moment, so
 most of this code assumes binary.
 
 #### Papers
-* Lempel 1992.pdf: Describes a method of construction of deBruijn sequences.
-I haven't read this one yet, but I expect it to show how to generate an _n+1_ span
-sequence from an _n_-span sequence.
+* Lempel 1992.pdf: Describes a method of construction of a deBruijn
+ sequence with an _n+1_ span from an _n_-span sequence. Also allows
+ such sequences to be efficiently decoded.
 * Mitchell.pdf:  Describes a method of construction of deBruijn sequences
 that can then be decoded. Mitchell's construction builds _2n_-span sequences
 from _n_-span sequences, and allows for recursive application and decoding to work with large dataset sizes.
@@ -60,7 +60,7 @@ length as n/2 -1 concatenated copies of B. <p> The construction method is:
  2. find the v-2 tuple (1,0,1,0,...) and insert (1,0). The location of the (1,0,1,0...) v-tuple is another
  important value we need to remember. It's called T.
 You're now left with D<sup>''</sup><sub>2v</sub>. From here, you can trivially generate D<sub>2v</sub> 
-as well as D<sup>+</sup><sub>2v</sub>. With those, you can do another iteration and create D<sbu>4v</sub>, etc.
+as well as D<sup>+</sup><sub>2v</sub>. With those, you can do another iteration and create D<sub>4v</sub>, etc.
 ###### [MitchellEtAl1996] Decoding
 The algorithm as described by [MitchellEtAl1996] works only with double-punctured deBruijns constructed using
 the above algorithm. Decoding looks convoluted, but is actually straight-forward. D<sup>''</sup><sub>2n</sub>
@@ -109,3 +109,15 @@ import MitchellDecode
 position_of_x = MitchellDecode.MitchellDecode(x)
 
 ```
+
+##### setup for using mouseImageFetch
+you'll need to be able to connect to the mouse. you can either be root, or do the following:
+<p>(from https://stackoverflow.com/a/31994168)
+create a file in /etc/udev/rules.d, mine is named 50-RichardWazHeer.rules<p>
+in it, put something like:<p>
+ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="04f3", ATTRS{idProduct}=="0235", MODE="666", GROUP="richard", PROGRAM="/bin/sh -c 'echo -n $id:1.0 >/sys/bus/usb/drivers/usbhid/unbind'"
+ 
+sudo udevadm control --reload
+sudo udevadm trigger
+
+unplug and replug your mouse.
